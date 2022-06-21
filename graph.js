@@ -77,11 +77,12 @@ class graph{
 
     //checks if mouse is hovering over a point used for interpolation
     checkMouseInteractionClick(mousePos){
-        this.graphPoints.forEach(function(pnt){
-            if(pnt.mouseOver(mousePos)){
-                console.log("oh nice hovering over point");
+        for(let q = 0; q < this.graphPoints.length; q++){
+            if(this.graphPoints[q].mouseOver(mousePos)){
+                return q; 
             }
-        });
+        }
+        return -1;   
     }
 
     //checks if range of graph is too small to continue zooming in

@@ -149,18 +149,43 @@ class Mouse{
         //coordinates in graph space
         this.loc_graph =  g_point; 
         //graph the mouse will reference 
-        this.grph = graph; 
+        this.grph = graph;
+        //the index of point 
+        this.ptInd = -1; 
     }
 
     UpdateLoc(canvas, evt){
        this.loc_canvas = getMousePos(canvas, evt);
        this.loc_graph = this.grph.ctgs(this.loc_canvas.x, this.loc_canvas.y);
+       if(this.ptInd != -1){
+           //update the point's location 
+           this.grph.graphPoints[this.ptInd].o.x = this.loc_graph.x; 
+           this.grph.graphPoints[this.ptInd].o.y = -this.loc_graph.y; 
+       }
+       
     }
 
     UpdateText(){
         this.grph.ctx.font = '20px serif';
         this.grph.ctx.fillText('('+ (this.loc_graph.x).toFixed(3) + ','+ 
                                     (-this.loc_graph.y).toFixed(3) +')', this.loc_canvas.x, this.loc_canvas.y);
+    }
+
+    CapturePoint(){
+        console.log("called");
+        this.ptInd = this.grph.checkMouseInteractionClick(this.loc_canvas); 
+        if(this.ptInd != -1){
+         console.log("got em");   
+        }
+    }
+
+    ReleasePoint(){
+        console.log("released"); 
+        this.ptInd = -1;
+    }
+
+    UpdatePoints(){
+
     }
 }
 //create mouse 
@@ -172,18 +197,20 @@ var m = new Mouse(new point(0,0),
 canvas.addEventListener('wheel', zoomGraph); 
 //https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
 canvas.addEventListener('mousedown',  function(evt){
-    m.UpdateLoc(canvas, evt);
+    m.CapturePoint();
+    /*m.UpdateLoc(canvas, evt);
     cgraph.graphInterp(legrangeInterp, "#FF0000");
     m.UpdateText();
-
+    */
 }, false);
 
 canvas.addEventListener('mouseup',  function(evt){
-    console.log("released"); 
+    m.ReleasePoint();
 }, false);
 
 canvas.addEventListener('mousemove', function(evt) {
     m.UpdateLoc(canvas, evt);
+    m.UpdatePoints();
     cgraph.graphInterp(legrangeInterp, "#FF0000");
     m.UpdateText();
 }, false);
