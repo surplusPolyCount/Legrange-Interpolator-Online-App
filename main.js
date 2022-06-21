@@ -17,6 +17,8 @@ function Start(){
 
     //build side form
     mFormParent = document.getElementById("m_form");
+
+    
     buildForm(mFormParent);
 }
 
@@ -35,4 +37,28 @@ function Update(){
 }
 
 Start(); 
+//https://developer.mozilla.org/en-US/docs/Web/API/Element/wheel_event
+canvas.addEventListener('wheel', zoomGraph); 
+//https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
+canvas.addEventListener('mousedown',  function(evt){
+    m.CapturePoint();
+    /*m.UpdateLoc(canvas, evt);
+    cgraph.graphInterp(legrangeInterp, "#FF0000");
+    m.UpdateText();
+    */
+}, false);
+
+canvas.addEventListener('mouseup',  function(evt){
+    m.ReleasePoint();
+}, false);
+
+canvas.addEventListener('mousemove', function(evt) {
+    m.UpdateLoc(canvas, evt);
+    m.UpdatePoints();
+    cgraph.graphInterp(legrangeInterp, "#FF0000");
+    m.UpdateText();
+    buildForm(mFormParent);
+}, false);
+//https://stackoverflow.com/questions/9643311/pass-a-string-parameter-in-an-onclick-function
+document.getElementById("updatePts").onclick = addPointToGraph;
 

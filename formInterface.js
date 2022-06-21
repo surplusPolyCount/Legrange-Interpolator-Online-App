@@ -42,6 +42,10 @@ function deletePointFromGraph(pointId){
 //  formParent: the html element that the form should be inserted into 
 function buildForm(formParent){
     let i = 0; 
+    let existingForm = document.getElementById("pointForm"); 
+    if(existingForm != null){
+        formParent.removeChild(existingForm);
+    }
     let form = document.createElement("form");
     form.setAttribute("id", "pointForm");
     cgraph.graphPoints.forEach(function(point){
@@ -175,7 +179,7 @@ class Mouse{
         console.log("called");
         this.ptInd = this.grph.checkMouseInteractionClick(this.loc_canvas); 
         if(this.ptInd != -1){
-         console.log("got em");   
+                console.log("got em");   
         }
     }
 
@@ -193,29 +197,6 @@ var m = new Mouse(new point(0,0),
                   new point(0,0),
                   cgraph); 
 
-//https://developer.mozilla.org/en-US/docs/Web/API/Element/wheel_event
-canvas.addEventListener('wheel', zoomGraph); 
-//https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
-canvas.addEventListener('mousedown',  function(evt){
-    m.CapturePoint();
-    /*m.UpdateLoc(canvas, evt);
-    cgraph.graphInterp(legrangeInterp, "#FF0000");
-    m.UpdateText();
-    */
-}, false);
-
-canvas.addEventListener('mouseup',  function(evt){
-    m.ReleasePoint();
-}, false);
-
-canvas.addEventListener('mousemove', function(evt) {
-    m.UpdateLoc(canvas, evt);
-    m.UpdatePoints();
-    cgraph.graphInterp(legrangeInterp, "#FF0000");
-    m.UpdateText();
-}, false);
-//https://stackoverflow.com/questions/9643311/pass-a-string-parameter-in-an-onclick-function
-document.getElementById("updatePts").onclick = addPointToGraph;
 
 /* 
     1) TODOS: 
@@ -223,11 +204,16 @@ document.getElementById("updatePts").onclick = addPointToGraph;
         create a function that will draw text on mouse  ~> YES
 
     2) TODOS: 
+        EHHHH KIND OF 
         get that github nice n going 
+        merge master branch with main branch
+        
+        YES
         get function to check if mouse is near point
             ~> have mouse store index of point if near && mouse is pressed 
             ~> have mouse erase index of point if mouse is released && index != -1 
         
+        YES
         make it so update function checks
             if index != -1 
                 update the point of that graph point 8) 
@@ -236,21 +222,9 @@ document.getElementById("updatePts").onclick = addPointToGraph;
             -> get graph using dark theme 
             -> get the graph the appropriate width of the window 
             -> get the side bar to pop in and out 
+            -> top toolbar 
+            
 
         Display the current graphing function 
+            -> asthetically pleasing way of showing these stoopid ass functions
 */
-
-
-    //USED AS TEST TO SEE IF WE CAN DETERMINE DISTANCE FROM MOUSE TO
-    //POINT IN GRAPH
-    /*
-    cgraph.graphPoints.forEach(function(point){
-    //if mousePt is near a point on the graph, 
-        let dist = distSqrd(mousePosGc, point.o);
-        if(dist < 0.075){ 
-          //color that shit green 
-          cgraph.ctx.fillStyle = "#00FF00";
-          console.log(dist);
-        }
-    });
-    */
