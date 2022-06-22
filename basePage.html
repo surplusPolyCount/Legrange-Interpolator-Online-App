@@ -4,9 +4,9 @@
 <head>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body style="background-color: #000; width: 100%; height: 100%; font-family: helvetica;">
+<body>
     
-    <div id="graph-editor" style="background-color: #383838; color: #FFF; width: 15%; float: left; position: absolute;">
+    <div id="graph-editor">
         <div style="margin-left: 10%">  
             <p>Add Point</p>
             <form > 
@@ -14,7 +14,7 @@
                 <input type="text" id="pointx" size="8"> 
                 <label for="pointx">y:</label>
                 <input type="text" id="pointy" size="8"> </br> 
-                <button id="addPt" type="button" onclick="addPointToGraph(cgraph, mFormParent)"> add point </button>
+                <button id="addPt" type="button" onclick="addPointToGraph(cgraph, mFormParent)">ADD</button>
             </form>
 
             <p>Edit Point</p>

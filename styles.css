@@ -1,3 +1,10 @@
+body{
+    background-color: #000; 
+    width: 100%; 
+    height: 100%; 
+    font-family: helvetica;
+}
+
 input{
     background-color: #222222;
     border: none; 
@@ -6,18 +13,32 @@ input{
 }
 
 button{ 
-    background-color: #222222;
+    background-color: #800;
     border: none; 
     border-radius: 3px;
     color: white; 
+    margin-top: 20px; 
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
 .delete-btn{
-    color: red; 
+    color: #f33; 
     background-color: rgba(0, 0,0,0);
     font-size: 20px;
-    padding-left: 10px;
+    padding-left: 5px;
     border: none; 
+    margin-bottom: 0px;
+}
+
+.pt-editor-ipt{
+    margin: -10px 0px;
+    
+}
+
+.pt-editor-ipt input{ 
+    margin-left: 4px;
+    margin-right: 15px;
 }
 
 .pt-properties{
@@ -25,5 +46,14 @@ button{
 }
 
 #graph-editor{
-    border-radius: 15px;
+    border-radius: 0px 15px 15px 0px;
+    background-color: #383838; 
+    color: #FFF;
+    width: 15%;
+    float: left; 
+    position: absolute;
+}
+
+#m_form{
+    margin-top: -30px;
 }

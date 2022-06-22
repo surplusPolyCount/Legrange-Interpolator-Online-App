@@ -6,7 +6,7 @@ var canvas = document.getElementById("m-canvas");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-var cgraph = new graph(canvas); //create canvas graph 
+var cgraph = new graph(canvas, "#ff0000", "#f88"); //create canvas graph 
   ////create mouse 
 var m = new Mouse(new point(0,0), 
                   new point(0,0),
@@ -30,7 +30,7 @@ function Start(){
     
 
     //render graph
-    cgraph.graphInterp(legrangeInterp, "#FF0000");
+    cgraph.graphInterp(legrangeInterp);
 
     //build side form
     mFormParent = document.getElementById("m_form");
@@ -54,7 +54,7 @@ function Start(){
     canvas.addEventListener('mousemove', function(evt) {
         m.UpdateLoc(canvas, evt);
         m.UpdatePoints();
-        cgraph.graphInterp(legrangeInterp, "#FF0000");
+        cgraph.graphInterp(legrangeInterp);
         m.UpdateText();
         buildForm(cgraph, mFormParent);
     }, false);

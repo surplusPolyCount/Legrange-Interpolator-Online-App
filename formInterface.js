@@ -20,7 +20,7 @@ function addPointToGraph(g, fp){
     form.remove();
     buildForm(g, fp); 
     //re-draw graph with updated points
-    g.graphInterp(legrangeInterp, "#FF0000");
+    g.graphInterp(legrangeInterp);
 }
 
 //function called from html clicking "addPoint" button
@@ -34,7 +34,7 @@ function deletePointFromGraph(g, pointId, fp){
     form.remove();
     buildForm(g, fp); 
     //re-create graph
-    g.graphInterp(legrangeInterp, "#FF0000");
+    g.graphInterp(legrangeInterp);
 }
 
 
@@ -51,6 +51,10 @@ function buildForm(g, formParent){
     let form = document.createElement("form");
     form.setAttribute("id", "pointForm");
     g.graphPoints.forEach(function(point){
+        var divWrapper = document.createElement("div");
+        divWrapper.setAttribute("class", "pt-editor-ipt");
+        //divWrapper.setAttribute("id", "pt-edit-div-" + i);
+
         var xTxt = document.createTextNode("x:");
         var yTxt = document.createTextNode("y:");
         var buttonTxt = document.createTextNode("X");
@@ -66,6 +70,7 @@ function buildForm(g, formParent){
         xIpt.setAttribute("type", "text");
         xIpt.setAttribute("name", "x"+i);
         xIpt.setAttribute("id", "x"+i);
+        xIpt.setAttribute("class", "pt-properties");
         xIpt.setAttribute("size", "8"); 
         xIpt.setAttribute("value", point.o.x);
 
@@ -73,6 +78,7 @@ function buildForm(g, formParent){
         yIpt.setAttribute("type", "text");
         yIpt.setAttribute("name", "y"+i);
         yIpt.setAttribute("id", "y"+i);
+        yIpt.setAttribute("class", "pt-properties");
         yIpt.setAttribute("size", "8"); 
         yIpt.setAttribute("value", point.o.y);
 
@@ -85,18 +91,20 @@ function buildForm(g, formParent){
             deletePointFromGraph(g, parseInt(delButtn.id), formParent);
         });
 
-        form.appendChild(xLab);
-        form.appendChild(xIpt);  
-        form.appendChild(yLab);
-        form.appendChild(yIpt);
-        form.appendChild(delButtn);
+        divWrapper.appendChild(xLab);
+        divWrapper.appendChild(xIpt);  
+        divWrapper.appendChild(yLab);
+        divWrapper.appendChild(yIpt);
+        divWrapper.appendChild(delButtn);
         var br = document.createElement("br"); 
         form.appendChild(br.cloneNode());
-        form.appendChild(br.cloneNode()); 
+        form.appendChild(divWrapper);
+
+        //form.appendChild(br.cloneNode()); 
         i++; 
     });
 
-    var upButtonTxt = document.createTextNode("update");
+    var upButtonTxt = document.createTextNode("UPDATE");
     var upButton = document.createElement("button"); 
     //upButton.setAttribute("onclick", "updateGraph(g)");
     upButton.setAttribute("type", "button");
@@ -122,7 +130,7 @@ function updateGraph(g){
         point.o.x = parseFloat(thisXIpt.value); 
         point.o.y = parseFloat(thisYIpt.value); 
     }
-    g.graphInterp(legrangeInterp, "#FF0000");
+    g.graphInterp(legrangeInterp);
 }
 
 //gets position of mouse on canvas 
@@ -149,7 +157,7 @@ function zoomGraph(evt, g){
     //console.log(zoomAmt);
     if(g.shouldScale(zoomAmt)){
         g.scaleGraph(zoomAmt);
-        g.graphInterp(legrangeInterp, "#FF0000");
+        g.graphInterp(legrangeInterp);
     }
 }
 
@@ -179,7 +187,10 @@ class Mouse{
     }
 
     UpdateText(){
-        this.grph.ctx.font = '20px serif';
+        this.grph.ctx.fillStyle = "#fff";
+        if(this.ptInd != -1)
+            this.grph.ctx.fillStyle = "#f54";
+        this.grph.ctx.font = '20px helvetica';
         this.grph.ctx.fillText('('+ (this.loc_graph.x).toFixed(3) + ','+ 
                                     (-this.loc_graph.y).toFixed(3) +')', this.loc_canvas.x, this.loc_canvas.y);
     }

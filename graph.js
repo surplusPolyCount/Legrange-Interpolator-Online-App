@@ -55,10 +55,12 @@ class graphPoint{
 
 //class for graph
 class graph{
-    constructor(canvas){
+    constructor(canvas, g_color, p_color){
         this.ctx = canvas.getContext("2d"); 
         this.w = canvas.getBoundingClientRect().width;
         this.h = canvas.getBoundingClientRect().height;
+        this.g_color = g_color; 
+        this.p_color = p_color;
         
         //variables for declaring min and max of x & y range for graph for
         //the function to be ploted on
@@ -119,7 +121,7 @@ class graph{
     //  point: POINT the point to add to graphPoints
     addPoint(point){
         //create graphPoint given a general point
-        var mPoint = new graphPoint(point, "#5555FF", this);
+        var mPoint = new graphPoint(point, this.p_color, this);
         
         //sort array incomplete feature to be added later
         /*
@@ -221,12 +223,12 @@ class graph{
     //         function of polynomial to draw on canvas
     //  color: STRING hex value color you want function to be in 
     //  
-    graphInterp(mfunc, color){
+    graphInterp(mfunc){
         //draw coordinate plane
         this.drawCoordinatePlane();
 
         //draw actual graph
-        this.ctx.strokeStyle = color;
+        this.ctx.strokeStyle = this.g_color;
         var inc = Math.abs(this.xMax - this.xMin)/300;
         var y = mfunc(this.xMin, this.graphPoints); 
         var point1 = this.gtcs(this.xMin, y); 
@@ -254,7 +256,7 @@ class graph{
         this.drawCoordinatePlane();
 
         //draw the actual graph 
-        this.ctx.strokeStyle = color;
+        this.ctx.strokeStyle = this.g_color;
         var inc = Math.abs(this.xMax - this.xMin)/100;
         var y = mfunc(this.xMin); 
         var point1 = this.gtcs(this.xMin, y); 
