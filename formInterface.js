@@ -53,7 +53,7 @@ function buildForm(g, formParent){
     g.graphPoints.forEach(function(point){
         var xTxt = document.createTextNode("x:");
         var yTxt = document.createTextNode("y:");
-        var buttonTxt = document.createTextNode("delete");
+        var buttonTxt = document.createTextNode("X");
 
         var xLab = document.createElement("label");
         xLab.setAttribute("for", "x"); 
@@ -80,6 +80,7 @@ function buildForm(g, formParent){
         delButtn.appendChild(buttonTxt);
         delButtn.setAttribute("type", "button");
         delButtn.setAttribute("id", i.toString()); 
+        delButtn.setAttribute("class", "delete-btn"); 
         delButtn.addEventListener('click', function(){
             deletePointFromGraph(g, parseInt(delButtn.id), formParent);
         });

@@ -168,33 +168,35 @@ class graph{
     //draws the background of the graph 
     drawCoordinatePlane(){
         //draw background color of graph
-        this.ctx.fillStyle = "#FFFFFF";
+        this.ctx.fillStyle = "#222222";
         this.ctx.beginPath();
         this.ctx.rect(0, 0, this.w, this.h);
         this.ctx.fill();
 
         //draw grey back lines of grid 
-        this.ctx.strokeStyle = "#555555";
+        this.ctx.strokeStyle = "#888888";
         //horizontal 
         for(let i = 0; i < 5; i++)
             drawLine(this.ctx, new point(0, i * (this.h/5)), new point(this.w, i * (this.h/5)));
         //vertical 
         for(let j = 0; j < 5; j++)
             drawLine(this.ctx, new point(j * (this.w/5), 0), new point(j * (this.w/5), this.h));
-        this.ctx.strokeStyle = "#bbbbbb";
+        //this.ctx.strokeStyle = "#aaaaaa";
         //horizontal 
         for(let i = 0; i < 10; i++)
             drawLine(this.ctx, new point(0, i * this.h/10), new point(this.w, i * (this.h/10)));
         //vertical 
         for(let j = 0; j < 10; j++)
             drawLine(this.ctx, new point(j * (this.w/10), 0), new point(j * (this.w/10), this.h));
-        this.ctx.strokeStyle = "#000000";
+
+
         //draw thick lines 
+        this.ctx.strokeStyle = "#f5f5f5";
         drawLine(this.ctx, new point(this.w/2, 0), new point(this.w/2, this.h));
         drawLine(this.ctx, new point(0, this.h/2), new point(this.w, this.h/2));
     
         //draw numbers onto graph 
-        this.ctx.font = '12px serif';
+        this.ctx.font = '12px helvetica';
         let valX = this.xMin;
         let valY = this.yMin;
         let range = Math.abs(this.xMax - this.xMin);
