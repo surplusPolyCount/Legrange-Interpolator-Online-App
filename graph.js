@@ -218,12 +218,13 @@ class graph{
     //  mfunc: FUNCTION OF TYPE NUM 
     //         function of polynomial to draw on canvas
     //  color: STRING hex value color you want function to be in 
+    //  
     graphInterp(mfunc, color){
         //draw coordinate plane
         this.drawCoordinatePlane();
 
         //draw actual graph
-        cgraph.ctx.strokeStyle = color;
+        this.ctx.strokeStyle = color;
         var inc = Math.abs(this.xMax - this.xMin)/300;
         var y = mfunc(this.xMin, this.graphPoints); 
         var point1 = this.gtcs(this.xMin, y); 
@@ -251,7 +252,7 @@ class graph{
         this.drawCoordinatePlane();
 
         //draw the actual graph 
-        cgraph.ctx.strokeStyle = color;
+        this.ctx.strokeStyle = color;
         var inc = Math.abs(this.xMax - this.xMin)/100;
         var y = mfunc(this.xMin); 
         var point1 = this.gtcs(this.xMin, y); 

@@ -1,13 +1,12 @@
 /*all functions that involves interfacing with html page*/
 
-//code written mostly by Wren Miles
 
-var canvas = document.getElementById("m-canvas"); 
-var cgraph = new graph(canvas);
 
 //function called from html clicking "addPoint" button
 //adds point to interpolator and re-draws the graph  
-function addPointToGraph(){
+//g:  graph to use 
+//fp: form parent to use 
+function addPointToGraph(g, fp){
     //take input and convert into numbers
     let newx = parseFloat(document.getElementById("pointx").value, 10); 
     let newy = parseFloat(document.getElementById("pointy").value, 10);
@@ -15,40 +14,43 @@ function addPointToGraph(){
     if(isNaN(newx) || isNaN(newy)){return false;}
     //create new point from numbers and add to graph 
     let newPt = new point(newx, newy); 
-    cgraph.addPoint(newPt);
+    g.addPoint(newPt);
     //render the new form from the the updated point list
     let form = document.getElementById("pointForm"); 
     form.remove();
-    buildForm(mFormParent); 
+    buildForm(g, fp); 
     //re-draw graph with updated points
-    cgraph.graphInterp(legrangeInterp, "#FF0000");
+    g.graphInterp(legrangeInterp, "#FF0000");
 }
 
 //function called from html clicking "addPoint" button
 //deletes point 
-function deletePointFromGraph(pointId){
+function deletePointFromGraph(g, pointId, fp){
+    console.log("calling from del: " + g.graphPoints.length);
     //takes index of point, and uses it to delete the point
-    cgraph.deletePoint(pointId);
+    g.deletePoint(pointId);
     //re-create form
     let form = document.getElementById("pointForm"); 
     form.remove();
-    buildForm(mFormParent); 
+    buildForm(g, fp); 
     //re-create graph
-    cgraph.graphInterp(legrangeInterp, "#FF0000");
+    g.graphInterp(legrangeInterp, "#FF0000");
 }
+
 
 //https://www.geeksforgeeks.org/how-to-create-a-form-dynamically-with-the-javascript/
 //create the form based of list of points 
 //  formParent: the html element that the form should be inserted into 
-function buildForm(formParent){
+//  g         : the graph to use 
+function buildForm(g, formParent){
     let i = 0; 
     let existingForm = document.getElementById("pointForm"); 
-    if(existingForm != null){
+    if(existingForm != null && formParent != null){
         formParent.removeChild(existingForm);
     }
     let form = document.createElement("form");
     form.setAttribute("id", "pointForm");
-    cgraph.graphPoints.forEach(function(point){
+    g.graphPoints.forEach(function(point){
         var xTxt = document.createTextNode("x:");
         var yTxt = document.createTextNode("y:");
         var buttonTxt = document.createTextNode("delete");
@@ -79,7 +81,7 @@ function buildForm(formParent){
         delButtn.setAttribute("type", "button");
         delButtn.setAttribute("id", i.toString()); 
         delButtn.addEventListener('click', function(){
-            deletePointFromGraph(parseInt(delButtn.id));
+            deletePointFromGraph(g, parseInt(delButtn.id), formParent);
         });
 
         form.appendChild(xLab);
@@ -95,20 +97,23 @@ function buildForm(formParent){
 
     var upButtonTxt = document.createTextNode("update");
     var upButton = document.createElement("button"); 
-    upButton.setAttribute("onclick", "updateGraph");
+    //upButton.setAttribute("onclick", "updateGraph(g)");
     upButton.setAttribute("type", "button");
     upButton.appendChild(upButtonTxt);
     form.appendChild(upButton);
-    upButton.onclick = updateGraph;
+    //upButton.onclick = updateGraph(g);
     formParent.appendChild(form);
 }
 
 //called on clicking the "update" button
 //takes updated numbers from form and uses them to
 //update graph points and re-draw the function
-function updateGraph(){
-    for(let i = 0; i < cgraph.graphPoints.length; i++){
-        let point = cgraph.graphPoints[i];
+//  g         : the graph to use 
+
+function updateGraph(g){
+    for(let i = 0; i < g.graphPoints.length; i++){
+        console.log("ran " + i + " times with point (from withing update graph) " + g.graphPoints.length);
+        let point = g.graphPoints[i];
         let thisXIpt = document.getElementById("x"+i); 
         let thisYIpt = document.getElementById("y"+i); 
         console.log("point: "  + point.o.x + " " + point.o.y
@@ -116,12 +121,14 @@ function updateGraph(){
         point.o.x = parseFloat(thisXIpt.value); 
         point.o.y = parseFloat(thisYIpt.value); 
     }
-    cgraph.graphInterp(legrangeInterp, "#FF0000");
+    g.graphInterp(legrangeInterp, "#FF0000");
 }
 
 //gets position of mouse on canvas 
 //  canvas: canvas that graph is being drawn on
 //  evt:    javascript event object 
+//  g:      the graph to use 
+
 function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
     return new point(
@@ -132,15 +139,16 @@ function getMousePos(canvas, evt) {
 
 //calls zoomfunction within graph to adjust the range of the 
 //graph that should be rendered 
-function zoomGraph(evt){
+// g         : the graph to use 
+function zoomGraph(evt, g){
     //event.preventDefault();
     let zoomAmt = evt.deltaY * -0.01;
     if(zoomAmt < -1) zoomAmt = -1; 
     else if(zoomAmt > 1) zoomAmt = 1;  
-    console.log(zoomAmt);
-    if(cgraph.shouldScale(zoomAmt)){
-        cgraph.scaleGraph(zoomAmt);
-        cgraph.graphInterp(legrangeInterp, "#FF0000");
+    //console.log(zoomAmt);
+    if(g.shouldScale(zoomAmt)){
+        g.scaleGraph(zoomAmt);
+        g.graphInterp(legrangeInterp, "#FF0000");
     }
 }
 
@@ -192,10 +200,7 @@ class Mouse{
 
     }
 }
-//create mouse 
-var m = new Mouse(new point(0,0), 
-                  new point(0,0),
-                  cgraph); 
+
 
 
 /* 
@@ -204,8 +209,9 @@ var m = new Mouse(new point(0,0),
         create a function that will draw text on mouse  ~> YES
 
     2) TODOS: 
-        EHHHH KIND OF 
+        YES
         get that github nice n going 
+        YES
         merge master branch with main branch
         
         YES

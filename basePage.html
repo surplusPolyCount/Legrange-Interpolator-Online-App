@@ -3,24 +3,26 @@
 <html>
 <style>
 </style>
-<body style="background-color: #bbb;">
-    <div style="background-color: white; width: 20%; float: left; height: 700px; margin-right: 5px;"> 
-        <form style="margin-top: 50px; width: 75%; margin-left: 12.5%;"> 
+<body style="background-color: #bbb; width: 100%; height: 100%;">
+    
+    <div style="background-color: white; width: 20%; float: left; position: absolute;"> 
+        <form style=" width: 75%; "> 
             <label for="pointx">x:</label>
             <input type="text" id="pointx" size="8"> 
             <label for="pointx">y:</label>
             <input type="text" id="pointy" size="8"> </br> 
-            <button id="updatePts" type="button" onclick="addPointToGraph"> add point </button>
+            <button id="addPt" type="button" onclick="addPointToGraph(cgraph, mFormParent)"> add point </button>
         </form>
 
-        <p style="margin-top: 50px; width: 75%; margin-left: 12.5%;">Current Points</p>
+        <p style=" width: 75%; ">Current Points</p>
         <div id="m_form"> 
         </div>
-    </div>
-
-    <div style="background-color: white; width: 75%; height:75%; float: left;"> 
+    </div>  
+    
+    <canvas id="m-canvas"> </canvas>
+    <!--<div style="background-color: white; width: 75%; height:75%; float: left;"> 
         <canvas id="m-canvas" width="1920" height="1080px"> </canvas>
-    </div>
+    </div>-->
 </body>
 <script src="graph.js"></script> 
 <script src="formInterface.js"></script>
