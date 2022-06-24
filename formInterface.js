@@ -71,7 +71,7 @@ function buildForm(g, formParent){
         xIpt.setAttribute("name", "x"+i);
         xIpt.setAttribute("id", "x"+i);
         xIpt.setAttribute("class", "pt-properties");
-        xIpt.setAttribute("size", "8"); 
+        xIpt.setAttribute("size", "5"); 
         xIpt.setAttribute("value", point.o.x);
 
         var yIpt = document.createElement("input");
@@ -79,7 +79,7 @@ function buildForm(g, formParent){
         yIpt.setAttribute("name", "y"+i);
         yIpt.setAttribute("id", "y"+i);
         yIpt.setAttribute("class", "pt-properties");
-        yIpt.setAttribute("size", "8"); 
+        yIpt.setAttribute("size", "5"); 
         yIpt.setAttribute("value", point.o.y);
 
         var delButtn = document.createElement("button"); 
